@@ -3,13 +3,12 @@ package com.example.bebeb
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bebeb.databinding.ActivityScrollingBinding
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 
 class ScrollingActivity : AppCompatActivity() {
 
@@ -25,10 +24,10 @@ class ScrollingActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         binding.toolbarLayout.title = title
 
-        val GantiGambar: Button = findViewById(R.id.GantiFoto)
-        val imageView: ImageView = findViewById(R.id.imageView)
+        val AddPicture: Button = findViewById(R.id.AddPicture)
+        val imageContainer: LinearLayout = findViewById(R.id.imageContainer)
 
-        GantiGambar.setOnClickListener {
+        AddPicture.setOnClickListener {
             // Start intent to pick an image from the media storage
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
@@ -48,9 +47,21 @@ class ScrollingActivity : AppCompatActivity() {
             // Get the selected image URI
             selectedImageUri = data.data!!
 
-            // Set the selected image to the ImageView
-            val imageView: ImageView = findViewById(R.id.imageView)
-            imageView.setImageURI(selectedImageUri)
+            // Create a new ImageView
+            val newImageView = ImageView(this)
+
+            // Set the image resource for the new ImageView
+            newImageView.setImageURI(selectedImageUri)
+
+            // Set layout parameters for the new ImageView (adjust as needed)
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+
+            // Add the new ImageView to the image container
+            val imageContainer: LinearLayout = findViewById(R.id.imageContainer)
+            imageContainer.addView(newImageView, layoutParams)
         }
     }
 }
